@@ -1,4 +1,4 @@
-name: Build Project with Gradle
+name: Build Project with Gradle and Deploy AWS
 
 on:
   push:
@@ -34,3 +34,15 @@ jobs:
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
         arguments: build
+
+    - name: Archive build artifacts
+      run: |
+        mkdir -p build-artifacts
+        cp build/distributions/lambda-authentication*.zip build-artifacts/
+      working-directory: ${{ github.workspace }}
+
+    - name: Upload ZIP artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-project-artifact
+        path: build-artifacts/lambda-authentication*.zip
