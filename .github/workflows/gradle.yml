@@ -44,5 +44,19 @@ jobs:
     - name: Upload ZIP artifact
       uses: actions/upload-artifact@v2
       with:
-        name: my-project-artifact
+        name: lambda-authentication.zip
         path: build-artifacts/lambda-authentication*.zip
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    - name: Create AWS Lambda Function
+      run: |
+        aws lambda create-function --function-name lambda-authentication --runtime java17 --handler com.snackhub.handler.AuthLambda::handleRequest --zip-file $GITHUB_WORKSPACE/build-artifacts/my-project-artifact.zip
+      continue-on-error: true  
+    - name: Update Lambda Function    
+      run: aws lambda update-function-code --function-name lambda-authentication --zip-file $GITHUB_WORKSPACE/build-artifacts/my-project-artifact.zip
+
