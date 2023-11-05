@@ -48,12 +48,13 @@ jobs:
         name: lambda-authentication.zip
         path: build-artifacts/lambda-authentication*.zip
 
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v4
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
+        aws-region: us-east-1    
+        
     - name: Create AWS Lambda Function
       run: |
         aws lambda create-function --function-name lambda-authentication --runtime java17 --handler com.snackhub.handler.AuthLambda::handleRequest --zip-file $GITHUB_WORKSPACE/build-artifacts/my-project-artifact.zip
