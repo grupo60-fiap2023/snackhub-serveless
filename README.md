@@ -11,6 +11,18 @@ Observação: Conforme sugerido e um dos critérios de avaliação, este reposit
 a partir desse momento, todos os commits para a main necessitará de um Pull Request com pelo menos 1 revisor.
 ![github.png](readmeFolder%2Fgithub.png)
 
+Foi configurado o CI/CD onde é realizado:
+* Build do código Java
+* Gerado o Zip da Lambda
+* Configuração das credenciais Amazon
+* Criação/Atualização da Lambda
+
+https://github.com/grupo60-fiap2023/snackhub-serveless/blob/main/.github/workflows/gradle.yml
+
+![action.png](readmeFolder%2Faction.png)
+![action2.png](readmeFolder%2Faction2.png)
+
+Obs2: Para fins de redução de custo na AWS foi retirado as credenciais pessoais AWS do secrets para evitar criação de lambdas e cobranças.
 
 # Conceito
 
