@@ -39,14 +39,14 @@ jobs:
     - name: Archive build artifacts
       run: |
         mkdir -p build-artifacts
-        cp build/distributions/lambda-authentication*.zip build-artifacts/
+        cp build/distributions/lambda-authentication-1.0-SNAPSHOT.zip build-artifacts/
       working-directory: ${{ github.workspace }}
 
     - name: Upload ZIP artifact
       uses: actions/upload-artifact@v2
       with:
-        name: lambda-authentication.zip
-        path: build-artifacts/lambda-authentication*.zip
+        name: lambda-authentication-1.0-SNAPSHOT.zip
+        path: build-artifacts/lambda-authentication-1.0-SNAPSHOT.zip
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v3
@@ -59,8 +59,7 @@ jobs:
         
     - name: Create AWS Lambda Function
       run: |
-        aws lambda create-function --function-name lambda-authentication --runtime java17 --handler com.snackhub.handler.AuthLambda::handleRequest --role arn:aws:iam::622646576227:role/GitHubAction-AssumeRoleWithAction --zip-file fileb://$GITHUB_WORKSPACE/build-artifacts/my-project-artifact.zip
-      continue-on-error: true  
+        aws lambda create-function --function-name lambda-authentication --runtime java17 --handler com.snackhub.handler.AuthLambda::handleRequest --role arn:aws:iam::622646576227:role/GitHubAction-AssumeRoleWithAction --zip-file fileb://$GITHUB_WORKSPACE/build-artifacts/lambda-authentication-1.0-SNAPSHOT.zip
     - name: Update Lambda Function    
-      run: aws lambda update-function-code --function-name lambda-authentication --zip-file fileb://$GITHUB_WORKSPACE/build-artifacts/my-project-artifact.zip
+      run: aws lambda update-function-code --function-name lambda-authentication --zip-file fileb://$GITHUB_WORKSPACE/build-artifacts/lambda-authentication-1.0-SNAPSHOT.zip
 
