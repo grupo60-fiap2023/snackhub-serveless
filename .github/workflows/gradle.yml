@@ -59,8 +59,8 @@ jobs:
         
     - name: Create AWS Lambda Function
       run: |
-        aws lambda create-function --function-name lambda-authentication --runtime java17 --handler com.snackhub.handler.AuthLambda::handleRequest --zip-file $GITHUB_WORKSPACE/build-artifacts/my-project-artifact.zip
+        aws lambda create-function --function-name lambda-authentication --runtime java17 --handler com.snackhub.handler.AuthLambda::handleRequest --role arn:aws:iam::622646576227:role/GitHubAction-AssumeRoleWithAction --zip-file $GITHUB_WORKSPACE/build-artifacts/my-project-artifact.zip
       continue-on-error: true  
     - name: Update Lambda Function    
-      run: aws lambda update-function-code --function-name lambda-authentication --zip-file $GITHUB_WORKSPACE/build-artifacts/my-project-artifact.zip
+      run: aws lambda update-function-code --function-name lambda-authentication --role arn:aws:iam::622646576227:role/GitHubAction-AssumeRoleWithAction --zip-file $GITHUB_WORKSPACE/build-artifacts/my-project-artifact.zip
 
